@@ -1,7 +1,20 @@
 #!/usr/bin/env
 from datetime import datetime
+import unittest
 
 
+# todo: seperate unittests from this script. Maybe a new python file?
+# Start unittests
+class TestStringMethods(unittest.TestCase):
+
+    def test_upper(self):
+        self.assertEqual('foo'.upper(), 'FOO')
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+# Define classes
 class Game:
     """
     The Tic-Tac-Toe game itself. Also known as the board.
@@ -57,5 +70,6 @@ class Location:
         self.y = y
 
 
-game = Game()
-print(game.createdAt)
+print("Starting program...")
+
+print("...end of program.")
