@@ -30,7 +30,8 @@ class TestGame(unittest.TestCase):
         # Adding the second player should also succeed.
         self.assertTrue(self.game.add_player('Alice'))
         # Adding a third player should not succeed as the max is 2.
-        self.assertFalse(self.game.add_player('Hank'))
+        with self.assertRaises(PlayerOutOfBoundsError):
+            self.game.add_player('Hank')
 
 
 class TestPlayer(unittest.TestCase):

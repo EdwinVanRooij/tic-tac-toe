@@ -28,16 +28,14 @@ class Game:
         :param name: the name of the player to be inserted
         :return: returns true if adding the player was successful
         """
-        if len(self.players) >= 2:
-            raise PlayerOutOfBoundsError('Attempting to add more players than allowed to a game.')
-        elif len(self.players) == 1:
-            self.players[1] = Player(name)
-            return True
-        elif len(self.players) == 0:
-            self.players[0] = Player(name)
+        # The amount of players in the game currently
+        amount_of_players = len(self.players)
+
+        if amount_of_players == 0 or amount_of_players == 1:
+            self.players.append(Player(name))
             return True
         else:
-            raise Exception('Invalid amount of players in this game.')
+            raise PlayerOutOfBoundsError('Attempting to add more players than allowed to a game.')
 
 
 class Player:
@@ -86,7 +84,3 @@ class Location:
         self.x = x
         self.y = y
 
-
-print("Starting program...")
-
-print("...end of program.")
