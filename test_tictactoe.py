@@ -38,6 +38,25 @@ class TestPlayer(unittest.TestCase):
     """
     A player participates in a game. A game has exactly two players.
     """
+    name = 'Bob'
+    player = None
+
+    def setUp(self):
+        self.player = Player(self.name)
+
+    def test_create_turn(self):
+        expected = 1
+        # Test whether or not the turn was added to the history of turns
+        self.player.create_turn()
+        actual = len(self.player.turnHistory)
+        # Verify that there was a turn added
+        self.assertEqual(expected, actual)
+
+        expected_multiple = 5
+        for i in range(4):
+            self.player.create_turn()
+        actual_multiple = len(self.player.turnHistory)
+        self.assertEqual(expected_multiple, actual_multiple)
 
 
 # This makes sure the module is ran when called directly (e.g. from the commandline)

@@ -50,7 +50,7 @@ class Player:
         self.createdAt = datetime.now()
         self.name = name
 
-    def create_turn(self, name):
+    def create_turn(self):
         self.turnHistory.append(Turn())
 
 
