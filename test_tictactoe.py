@@ -45,6 +45,10 @@ class TestPlayer(unittest.TestCase):
         self.player = Player(self.name)
 
     def test_create_turn(self):
+        """
+        A player may not have more than 5 turns.
+        :return:
+        """
         expected = 1
         # Test whether or not the turn was added to the history of turns
         self.player.create_turn()
@@ -52,11 +56,12 @@ class TestPlayer(unittest.TestCase):
         # Verify that there was a turn added
         self.assertEqual(expected, actual)
 
-        expected_multiple = 5
+        # Test if we can go over 5 turns
         for i in range(4):
             self.player.create_turn()
-        actual_multiple = len(self.player.turnHistory)
-        self.assertEqual(expected_multiple, actual_multiple)
+        # At 5 turns now, try to create the sixth one. Should throw exception.
+        with self.assertRaises(TurnsOutOfBoundsError):
+            self.player.create_turn()
 
 
 # This makes sure the module is ran when called directly (e.g. from the commandline)

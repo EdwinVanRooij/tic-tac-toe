@@ -10,6 +10,14 @@ class PlayerOutOfBoundsError(Exception):
         return repr(self.value)
 
 
+class TurnsOutOfBoundsError(Exception):
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
+
+
 class Game:
     """
     The Tic-Tac-Toe game itself. Also known as the board.
@@ -31,16 +39,18 @@ class Game:
         # The amount of players in the game currently
         amount_of_players = len(self.players)
 
-        if amount_of_players == 0 or amount_of_players == 1:
+        if amount_of_players < 2:
             self.players.append(Player(name))
             return True
         else:
-            raise PlayerOutOfBoundsError('Attempting to add more players than allowed to a game.')
+            raise PlayerOutOfBoundsError('Trying to add a player above the limit.')
 
 
 class Player:
     """
     A player participates in a game. A game has exactly two players.
+    It's impossible for a player to have more than 5 turns, since there
+    are only 9 spots on the board for 2 players.
     """
     turns = 5
     turnHistory = []
@@ -51,7 +61,15 @@ class Player:
         self.name = name
 
     def create_turn(self):
-        self.turnHistory.append(Turn())
+        """
+        Creates a turn and adds it to the turn history.
+        A player may not have more than 5 turns.
+        :return:
+        """
+        if len(self.turnHistory) < 5:
+            self.turnHistory.append(Turn())
+        else:
+            raise TurnsOutOfBoundsError('Attempted to do a sixth turn, not possible.')
 
 
 class Turn:
@@ -83,4 +101,3 @@ class Location:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-
