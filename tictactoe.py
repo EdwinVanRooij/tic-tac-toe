@@ -67,9 +67,18 @@ class Player:
         :return:
         """
         if len(self.turnHistory) < 5:
-            self.turnHistory.append(Turn())
+            turn = Turn()
+            self.turnHistory.append(turn)
+            return turn
         else:
             raise TurnsOutOfBoundsError('Attempted to do a sixth turn, not possible.')
+
+    def get_current_turn(self):
+        """
+        Returns the current turn of the player, this is the last one added.
+        :return:
+        """
+        return self.turnHistory[-1]
 
 
 class Turn:
