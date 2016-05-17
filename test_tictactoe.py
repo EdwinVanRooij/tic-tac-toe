@@ -47,11 +47,19 @@ class TestPlayer(unittest.TestCase):
     def setUp(self):
         self.player = Player(player_bob_name)
 
-    def testA_GetCurrentTurn(self):
+    def testC_GetCurrentTurn(self):
         """
         Returns the current turn of the player, this is the last one added.
         :return:
         """
+        # Reset the player so that the other tests have no effect on this one
+        self.player = None
+
+        amount_of_turns = (len(self.player.turnHistory), 'amount of players in testB')
+        print(amount_of_turns)
+
+        self.player = Player(player_bob_name)
+
         expected = self.player.create_turn()
         actual = self.player.get_current_turn()
         self.assertEqual(expected, actual)
@@ -61,6 +69,14 @@ class TestPlayer(unittest.TestCase):
         A player may not have more than 5 turns.
         :return:
         """
+        # Reset the player so that the other tests have no effect on this one
+        self.player = None
+
+        amount_of_turns = (len(self.player.turnHistory), 'amount of players in testB')
+        print(amount_of_turns)
+
+        self.player = Player(player_bob_name)
+
         expected = 2  # Since there is an existing turn from test A
         # Test whether or not the turn was added to the history of turns
         self.player.create_turn()
