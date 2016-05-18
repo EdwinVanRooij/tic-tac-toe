@@ -112,31 +112,31 @@ class Location:
         self.y = y
 
 
-class TestClass:
-    """
-    Testing purposes
-    """
-    x = None
-
-    def __init__(self):
-        print('x before init;', self.x)
-        self.x = 'Initialized in __init__'
-        print('x after init;', self.x, '\n')
-
-    def method_assign_value(self):
-        print('before assign value;', self.x)
-        self.x = 'value assigned in method'
-        print('self x before method;', self.x, '\n')
-
-    def method_set_value_none(self):
-        print('before assign none;', self.x)
-        self.x = None
-        print('after assign none;', self.x, '\n')
-
-
-test = TestClass()
-print(test.x, '\n')
-test.method_assign_value()
-print(test.x, '\n')
-test.method_set_value_none()
-print(test.x, '\n')
+# class TestClass:
+#     """
+#     Testing purposes
+#     """
+#     x = None
+#
+#     def __init__(self):
+#         print('x before init;', self.x)
+#         self.x = 'Initialized in __init__'
+#         print('x after init;', self.x, '\n')
+#
+#     def method_assign_value(self):
+#         print('before assign value;', self.x)
+#         self.x = 'value assigned in method'
+#         print('self x before method;', self.x, '\n')
+#
+#     def method_set_value_none(self):
+#         print('before assign none;', self.x)
+#         self.x = None
+#         print('after assign none;', self.x, '\n')
+#
+#
+# test = TestClass()
+# print(test.x, '\n')
+# test.method_assign_value()
+# print(test.x, '\n')
+# test.method_set_value_none()
+# print(test.x, '\n')
