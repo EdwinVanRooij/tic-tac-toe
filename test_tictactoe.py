@@ -70,7 +70,7 @@ class TestPlayer(unittest.TestCase):
         print('Starting test a... player turns:', len(self.player.turnHistory))
         expected = self.player.create_turn()
         actual = self.player.get_current_turn()
-        self.assertEqual(expected, actual)
+        self.assertEqual(expected, actual, 'Just added turn is not the created turn')
         print('Ran test a... player turns:', len(self.player.turnHistory))
 
     # def testCreateTurn(self):
@@ -85,14 +85,14 @@ class TestPlayer(unittest.TestCase):
         self.player.create_turn()
         actual = len(self.player.turnHistory)
         # Verify that there was a turn added
-        self.assertEqual(expected, actual)
+        self.assertEqual(expected, actual, 'There was not exactly one turn added')
 
         # Add 4 turns so that we're at 5, we made the first up here
         for i in range(4):
             TestPlayer.player.create_turn()
 
         # At 5 turns now, try to create the sixth one. Should throw exception.
-        with self.assertRaises(TurnsOutOfBoundsError):
+        with self.assertRaises(TurnsOutOfBoundsError, 'should\'ve thrown a TurnsOutOfBoundError'):
             TestPlayer.player.create_turn()
 
         print('Ran test b... player turns:', len(self.player.turnHistory))
