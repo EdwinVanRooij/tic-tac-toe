@@ -38,51 +38,64 @@ class TestGame(unittest.TestCase):
             self.game.add_player(player_hank_name)
 
 
-# class TestPlayer(unittest.TestCase):
-#     """
-#     A player participates in a game. A game has exactly two players.
-#     """
-#     player = None
-#
-#     def testGetCurrentTurn(self):
-#         """
-#         Returns the current turn of the player, this is the last one added.
-#         :return:
-#         """
-#         # Reset the player so that the other tests have no effect on this one
-#         # todo: the self.player variable won't set it's value to None, wtf?
-#         TestPlayer.player = None
-#         TestPlayer.player = Player(player_bob_name)
-#
-#         print(('amount of turns currently:', len(TestPlayer.player.turnHistory)))
-#
-#         expected = TestPlayer.player.create_turn()
-#         actual = TestPlayer.player.get_current_turn()
-#         self.assertEqual(expected, actual)
-#
-#     def testCreateTurn(self):
-#         """
-#         A player may not have more than 5 turns.
-#         :return:
-#         """
-#         # Reset the player so that the other tests have no effect on this one
-#         TestPlayer.player = None
-#         TestPlayer.player = Player(player_bob_name)
-#
-#         expected = 1  # Since there is an existing turn from test A
-#         # Test whether or not the turn was added to the history of turns
-#         TestPlayer.player.create_turn()
-#         actual = len(TestPlayer.player.turnHistory)
-#         # Verify that there was a turn added
-#         self.assertEqual(expected, actual)
-#
-#         # Add 3 turns so that we're at 5, we made the first up here
-#         for i in range(4):
-#             TestPlayer.player.create_turn()
-#
-#         # At 5 turns now, try to create the sixth one. Should throw exception.
-#         with self.assertRaises(TurnsOutOfBoundsError):
-#             TestPlayer.player.create_turn()
+class TestPlayer(unittest.TestCase):
+    """
+    A player participates in a game. A game has exactly two players.
+    """
+    player = None
+
+    def setUp(self):
+        self.player = None
+        self.player = Player(player_bob_name)
+        print('Ran setup... player turns:', len(self.player.turnHistory))
+
+    def tearDown(self):
+        self.player.turnHistory = None
+        self.player = None
+
+        if self.player is not None:
+            print('Player is not None in tearDown')
+
+            if self.player.turnHistory is not None:
+                print('turnHistory is not None in tearDown')
+
+        print('Ran teardown... player & turnHistory is None')
+
+    # def testGetCurrentTurn(self):
+    def test_a(self):
+        """
+        Returns the current turn of the player, this is the last one added.
+        :return:
+        """
+        print('Starting test a... player turns:', len(self.player.turnHistory))
+        expected = self.player.create_turn()
+        actual = self.player.get_current_turn()
+        self.assertEqual(expected, actual)
+        print('Ran test a... player turns:', len(self.player.turnHistory))
+
+    # def testCreateTurn(self):
+    def test_b(self):
+        """
+        A player may not have more than 5 turns.
+        :return:
+        """
+        print('Starting test b... player turns:', len(self.player.turnHistory))
+        expected = 1
+        # Test whether or not the turn was added to the history of turns
+        self.player.create_turn()
+        actual = len(self.player.turnHistory)
+        # Verify that there was a turn added
+        self.assertEqual(expected, actual)
+
+        # Add 4 turns so that we're at 5, we made the first up here
+        for i in range(4):
+            TestPlayer.player.create_turn()
+
+        # At 5 turns now, try to create the sixth one. Should throw exception.
+        with self.assertRaises(TurnsOutOfBoundsError):
+            TestPlayer.player.create_turn()
+
+        print('Ran test b... player turns:', len(self.player.turnHistory))
 
 
 class TestTurn(unittest.TestCase):
