@@ -47,37 +47,32 @@ class TestPlayer(unittest.TestCase):
     def setUp(self):
         self.player = Player(player_bob_name)
 
-    def testC_GetCurrentTurn(self):
+    def testGetCurrentTurn(self):
         """
         Returns the current turn of the player, this is the last one added.
         :return:
         """
         # Reset the player so that the other tests have no effect on this one
+        # todo: the self.player variable won't set it's value to None, wtf?
         self.player = None
-
-        amount_of_turns = (len(self.player.turnHistory), 'amount of players in testB')
-        print(amount_of_turns)
-
         self.player = Player(player_bob_name)
+
+        print(('amount of turns currently:', len(self.player.turnHistory)))
 
         expected = self.player.create_turn()
         actual = self.player.get_current_turn()
         self.assertEqual(expected, actual)
 
-    def testB_CreateTurn(self):
+    def testCreateTurn(self):
         """
         A player may not have more than 5 turns.
         :return:
         """
         # Reset the player so that the other tests have no effect on this one
         self.player = None
-
-        amount_of_turns = (len(self.player.turnHistory), 'amount of players in testB')
-        print(amount_of_turns)
-
         self.player = Player(player_bob_name)
 
-        expected = 2  # Since there is an existing turn from test A
+        expected = 1  # Since there is an existing turn from test A
         # Test whether or not the turn was added to the history of turns
         self.player.create_turn()
         actual = len(self.player.turnHistory)
@@ -85,7 +80,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(expected, actual)
 
         # Add 3 turns so that we're at 5, we made the first up here
-        for i in range(3):
+        for i in range(4):
             self.player.create_turn()
 
         # At 5 turns now, try to create the sixth one. Should throw exception.
