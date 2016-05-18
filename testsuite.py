@@ -8,7 +8,7 @@ def suite():
     test_suite.addTest(unittest.makeSuite(test_tictactoe.TestGame))
     test_suite.addTest(unittest.makeSuite(test_tictactoe.TestPlayer))
     test_suite.addTest(unittest.makeSuite(test_tictactoe.TestTurn))
-    # test_suite.addTest(unittest.makeSuite(test_tictactoe.TestSimpleFoo))
+    test_suite.addTest(unittest.makeSuite(test_tictactoe.TestSimpleFoo))
     return test_suite
 
 

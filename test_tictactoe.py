@@ -45,7 +45,6 @@ class TestPlayer(unittest.TestCase):
     player = None
 
     def setUp(self):
-        self.player = None
         self.player = Player(player_bob_name)
         print('Ran setup... player turns:', len(self.player.turnHistory))
 
@@ -115,26 +114,31 @@ class TestTurn(unittest.TestCase):
 
 
 class TestSimpleFoo(unittest.TestCase):
-    print('Ran class initialization...')
-    foo = 'could'
+    foo = None
+    print('Ran class initialization:\t', foo)
 
     def setUp(self):
-        print('Ran setup...')
-        self.foo = 'would'
+        self.foo = 'setup'
+        print('Ran setup:\t', self.foo)
 
     def tearDown(self):
-        print('Ran teardown...')
-        self.foo = 'canttt'
-
-    def test_z(self):
-        print('Ran test 1...')
-        self.foo = 'cant'
-
-    def test_f(self):
-        print('Ran test 2...')
-        print(self.foo)
         self.foo = None
-        self.assertEqual(self.foo, None)
+        print('Ran teardown:\t', self.foo)
+
+    def test_a(self):
+        self.foo = 'test_a'
+        print('Ran test [A]:\t', self.foo)
+        self.assertEqual(self.foo, 'test_a')
+
+    def test_b(self):
+        self.foo = 'test_b'
+        print('Ran test [B]:\t', self.foo)
+        self.assertEqual(self.foo, 'test_b')
+
+    def test_c(self):
+        self.foo = 'test_c'
+        print('Ran test [C]:\t', self.foo)
+        self.assertEqual(self.foo, 'test_c')
 
 # if __name__ == '__main__':
 #     unittest.main()
