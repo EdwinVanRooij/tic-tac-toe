@@ -38,54 +38,51 @@ class TestGame(unittest.TestCase):
             self.game.add_player(player_hank_name)
 
 
-class TestPlayer(unittest.TestCase):
-    """
-    A player participates in a game. A game has exactly two players.
-    """
-    player = None
-
-    def setUp(self):
-        self.player = Player(player_bob_name)
-
-    def testGetCurrentTurn(self):
-        """
-        Returns the current turn of the player, this is the last one added.
-        :return:
-        """
-        # Reset the player so that the other tests have no effect on this one
-        # todo: the self.player variable won't set it's value to None, wtf?
-        self.player = None
-        self.player = Player(player_bob_name)
-
-        print(('amount of turns currently:', len(self.player.turnHistory)))
-
-        expected = self.player.create_turn()
-        actual = self.player.get_current_turn()
-        self.assertEqual(expected, actual)
-
-    def testCreateTurn(self):
-        """
-        A player may not have more than 5 turns.
-        :return:
-        """
-        # Reset the player so that the other tests have no effect on this one
-        self.player = None
-        self.player = Player(player_bob_name)
-
-        expected = 1  # Since there is an existing turn from test A
-        # Test whether or not the turn was added to the history of turns
-        self.player.create_turn()
-        actual = len(self.player.turnHistory)
-        # Verify that there was a turn added
-        self.assertEqual(expected, actual)
-
-        # Add 3 turns so that we're at 5, we made the first up here
-        for i in range(4):
-            self.player.create_turn()
-
-        # At 5 turns now, try to create the sixth one. Should throw exception.
-        with self.assertRaises(TurnsOutOfBoundsError):
-            self.player.create_turn()
+# class TestPlayer(unittest.TestCase):
+#     """
+#     A player participates in a game. A game has exactly two players.
+#     """
+#     player = None
+#
+#     def testGetCurrentTurn(self):
+#         """
+#         Returns the current turn of the player, this is the last one added.
+#         :return:
+#         """
+#         # Reset the player so that the other tests have no effect on this one
+#         # todo: the self.player variable won't set it's value to None, wtf?
+#         TestPlayer.player = None
+#         TestPlayer.player = Player(player_bob_name)
+#
+#         print(('amount of turns currently:', len(TestPlayer.player.turnHistory)))
+#
+#         expected = TestPlayer.player.create_turn()
+#         actual = TestPlayer.player.get_current_turn()
+#         self.assertEqual(expected, actual)
+#
+#     def testCreateTurn(self):
+#         """
+#         A player may not have more than 5 turns.
+#         :return:
+#         """
+#         # Reset the player so that the other tests have no effect on this one
+#         TestPlayer.player = None
+#         TestPlayer.player = Player(player_bob_name)
+#
+#         expected = 1  # Since there is an existing turn from test A
+#         # Test whether or not the turn was added to the history of turns
+#         TestPlayer.player.create_turn()
+#         actual = len(TestPlayer.player.turnHistory)
+#         # Verify that there was a turn added
+#         self.assertEqual(expected, actual)
+#
+#         # Add 3 turns so that we're at 5, we made the first up here
+#         for i in range(4):
+#             TestPlayer.player.create_turn()
+#
+#         # At 5 turns now, try to create the sixth one. Should throw exception.
+#         with self.assertRaises(TurnsOutOfBoundsError):
+#             TestPlayer.player.create_turn()
 
 
 class TestTurn(unittest.TestCase):
@@ -102,6 +99,29 @@ class TestTurn(unittest.TestCase):
         # expected = self.player.turnHistory[0]
         # self.player.
         # actual = self.player.get_current_turn()
+
+
+class TestSimpleFoo(unittest.TestCase):
+    print('Ran class initialization...')
+    foo = 'could'
+
+    def setUp(self):
+        print('Ran setup...')
+        self.foo = 'would'
+
+    def tearDown(self):
+        print('Ran teardown...')
+        self.foo = 'canttt'
+
+    def test_z(self):
+        print('Ran test 1...')
+        self.foo = 'cant'
+
+    def test_f(self):
+        print('Ran test 2...')
+        print(self.foo)
+        self.foo = None
+        self.assertEqual(self.foo, None)
 
 # if __name__ == '__main__':
 #     unittest.main()
