@@ -1,5 +1,6 @@
 #!/usr/bin/env
 from datetime import datetime
+from enum import Enum
 
 
 class PlayerOutOfBoundsError(Exception):
@@ -26,6 +27,11 @@ class OutOfBoardError(Exception):
         return repr(self.value)
 
 
+class TurnType(Enum):
+    Circle = 1
+    Cross = 2
+
+
 class Game:
     """
     The Tic-Tac-Toe game itself. Also known as the board.
@@ -41,6 +47,7 @@ class Game:
     def add_player(self, name):
         """
         Adds a player to the game. The game may not contain more than two players.
+        Generates the player with player number
         :param name: the name of the player to be inserted
         :return: returns true if adding the player was successful
         """
@@ -48,10 +55,22 @@ class Game:
         amount_of_players = len(self.players)
 
         if amount_of_players < 2:
-            self.players.append(Player(name))
+            self.players.append(Player(name, self.generate_number()))
             return True
         else:
             raise PlayerOutOfBoundsError('Trying to add a player above the limit.')
+
+    def generate_number(self):
+        """
+        Generates the player number.
+        :return: the player number
+        """
+        if len(self.players) == 0:
+            return 1
+        elif len(self.players) == 1:
+            return 2
+        else:
+            return PlayerOutOfBoundsError('There is an invalid amount of players in this game')
 
 
 class Player:
@@ -61,11 +80,16 @@ class Player:
     are only 9 spots on the board for 2 players.
     """
 
-    def __init__(self, name):
-        self.createdAt = datetime.now()
+    def __init__(self, name, player_number):
+        """
+        Initializes the player
+        :param name: name of the player
+        :param player_number: 1 or 2 depending on which entered first
+        """
         self.turns = 5
         self.turnHistory = []
         self.name = name
+        self.playerNumber = player_number
 
     def create_turn(self):
         """
@@ -74,7 +98,13 @@ class Player:
         :return:
         """
         if len(self.turnHistory) < 5:
-            turn = Turn()
+            if self.playerNumber == 1:
+                turn = Turn(TurnType.Circle)
+            elif self.playerNumber == 2:
+                turn = Turn(TurnType.Cross)
+            else:
+                raise IndexError('playerNumber does not have a valid index')
+
             self.turnHistory.append(turn)
             return turn
         else:
@@ -93,10 +123,11 @@ class Turn:
     A turn in a game. A turn is created and executed by a player. A turn contains meta data about the turn.
     """
 
-    def __init__(self):
+    def __init__(self, turn_type):
         self.createdAt = datetime.now()
         self.executedAt = None
         self.location = None
+        self.turnType = turn_type
 
     def execute_turn(self, x, y):
         """

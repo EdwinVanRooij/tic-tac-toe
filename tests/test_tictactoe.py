@@ -1,7 +1,8 @@
 #!/usr/bin/env
-import unittest
 import time
-from tictactoe import *
+import unittest
+
+from src.tictactoe import *
 
 player_bob_name = 'Bob'
 player_alice_name = 'Alice'
@@ -46,15 +47,22 @@ class TestPlayer(unittest.TestCase):
     """
 
     def setUp(self):
-        self.player = Player(player_bob_name)
+        self.game = Game()
+
+    def testGetPlayerNumber(self):
+        """
+        Must be either 1 or 2
+        :return:
+        """
+        self.game.add_player(player_bob_name)
 
     def testGetCurrentTurn(self):
         """
         Returns the current turn of the player, this is the last one added.
         :return:
         """
-        expected = self.player.create_turn()
-        actual = self.player.get_current_turn()
+        expected = self.game.players[0].player.create_turn()
+        actual = self.game.players[0].get_current_turn()
         self.assertEqual(expected, actual, 'Just added turn is not the created turn')
 
     def testCreateTurn(self):
@@ -64,8 +72,8 @@ class TestPlayer(unittest.TestCase):
         """
         expected = 1
         # Test whether or not the turn was added to the history of turns
-        self.player.create_turn()
-        actual = len(self.player.turnHistory)
+        self.game.players[0].create_turn()
+        actual = len(self.game.players[0].turnHistory)
         # Verify that there was a turn added
         self.assertEqual(expected, actual, 'There was not exactly one turn added')
 
@@ -76,11 +84,11 @@ class TestPlayer(unittest.TestCase):
         """
         # Add 5 turns
         for i in range(5):
-            self.player.create_turn()
+            self.game.players[0].create_turn()
 
         # At 5 turns now, try to create the sixth one. Should throw exception.
         with self.assertRaises(TurnOutOfBoundsError):
-            self.player.create_turn()
+            self.game.players[0].create_turn()
 
 
 class TestTurn(unittest.TestCase):
@@ -90,7 +98,9 @@ class TestTurn(unittest.TestCase):
     """
 
     def setUp(self):
-        self.player = Player(player_bob_name)
+        self.game = Game()
+        self.game.add_player(player_bob_name)
+        self.player = self.game.players[0]
         self.player.create_turn()
 
     def testExecuteTurn(self):
