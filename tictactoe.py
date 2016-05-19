@@ -52,12 +52,11 @@ class Player:
     It's impossible for a player to have more than 5 turns, since there
     are only 9 spots on the board for 2 players.
     """
-    turns = 5
-    turnHistory = []
-    name = None
 
     def __init__(self, name):
         self.createdAt = datetime.now()
+        self.turns = 5
+        self.turnHistory = []
         self.name = name
 
     def create_turn(self):
@@ -110,7 +109,6 @@ class Location:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-
 
 # class TestClass:
 #     """
