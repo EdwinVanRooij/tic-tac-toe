@@ -1,5 +1,6 @@
 #!/usr/bin/env
 import unittest
+import time
 from tictactoe import *
 
 player_bob_name = 'Bob'
@@ -113,14 +114,21 @@ class TestTurn(unittest.TestCase):
         :return:
         """
         before = datetime.now()
+        # Generate a quick delay
+        time.sleep(1)
         new_turn = self.player.create_turn()
+        time.sleep(1)
         after = datetime.now()
         # Now check whether or not the new turn was after the before & before the after
         if new_turn.createdAt <= before or new_turn.createdAt >= after:
             self.fail('The creation of the turn has set an invalid createdAt')
 
         before_execution = datetime.now()
+        # Generate a quick delay
+        time.sleep(1)
         new_turn.execute_turn(2, 2)
+        # Generate a quick delay
+        time.sleep(1)
         after_execution = datetime.now()
         # Check whether or not the execution happened after the before and before the after
         if new_turn.executedAt <= before_execution or new_turn.executedAt >= after_execution:
