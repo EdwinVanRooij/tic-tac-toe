@@ -14,7 +14,6 @@ class TestGame(unittest.TestCase):
     """
     The Tic-Tac-Toe game itself. Also known as the board.
     """
-    game = None
 
     def setUp(self):
         self.game = Game()
@@ -48,6 +47,7 @@ class TestPlayer(unittest.TestCase):
 
     def setUp(self):
         self.game = Game()
+        self.game.add_player(player_bob_name)
 
     def testGetPlayerNumber(self):
         """
@@ -61,7 +61,7 @@ class TestPlayer(unittest.TestCase):
         Returns the current turn of the player, this is the last one added.
         :return:
         """
-        expected = self.game.players[0].player.create_turn()
+        expected = self.game.players[0].create_turn()
         actual = self.game.players[0].get_current_turn()
         self.assertEqual(expected, actual, 'Just added turn is not the created turn')
 

@@ -36,13 +36,12 @@ class Game:
     """
     The Tic-Tac-Toe game itself. Also known as the board.
     """
-    winner = None
-    createdAt = None
-    endedAt = None
-    players = []
 
     def __init__(self):
         self.createdAt = datetime.now()
+        self.winner = None
+        self.endedAt = None
+        self.players = []
 
     def add_player(self, name):
         """
