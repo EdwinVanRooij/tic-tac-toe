@@ -65,34 +65,42 @@ class TestPlayer(unittest.TestCase):
         Returns the current turn of the player, this is the last one added.
         :return:
         """
-        print('Starting test a... player turns:', len(self.player.turnHistory))
+        print('Starting testGetCurrentTurn... player turns:', len(self.player.turnHistory))
         expected = self.player.create_turn()
         actual = self.player.get_current_turn()
         self.assertEqual(expected, actual, 'Just added turn is not the created turn')
-        print('Ran test a... player turns:', len(self.player.turnHistory))
+        print('Ran test testGetCurrentTurn... player turns:', len(self.player.turnHistory))
 
     def testCreateTurn(self):
         """
-        A player may not have more than 5 turns.
+        Test whether or not a turn is actually created
         :return:
         """
-        print('Starting test b... player turns:', len(self.player.turnHistory))
+        print('Starting testCreateTurn... player turns:', len(self.player.turnHistory))
         expected = 1
         # Test whether or not the turn was added to the history of turns
         self.player.create_turn()
         actual = len(self.player.turnHistory)
         # Verify that there was a turn added
         self.assertEqual(expected, actual, 'There was not exactly one turn added')
+        print('Ran test testCreateTurn... player turns:', len(self.player.turnHistory))
 
-        # Add 4 turns so that we're at 5, we made the first up here
-        for i in range(4):
-            TestPlayer.player.create_turn()
+    def testCreateTurnMax(self):
+        """
+        A player may not have more than 5 turns.
+        :return:
+        """
+        print('Starting testCreateTurnMax... player turns:', len(self.player.turnHistory))
+
+        # Add 5 turns
+        for i in range(5):
+            self.player.create_turn()
 
         # At 5 turns now, try to create the sixth one. Should throw exception.
         with self.assertRaises(TurnsOutOfBoundsError, 'should\'ve thrown a TurnsOutOfBoundError'):
-            TestPlayer.player.create_turn()
+            self.player.create_turn()
 
-        print('Ran test b... player turns:', len(self.player.turnHistory))
+        print('Ran test testCreateTurnMax... player turns:', len(self.player.turnHistory))
 
 
 class TestTurn(unittest.TestCase):
