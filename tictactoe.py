@@ -10,7 +10,7 @@ class PlayerOutOfBoundsError(Exception):
         return repr(self.value)
 
 
-class TurnsOutOfBoundsError(Exception):
+class InvalidTurnError(Exception):
     def __init__(self, value):
         self.value = value
 
@@ -70,7 +70,7 @@ class Player:
             self.turnHistory.append(turn)
             return turn
         else:
-            raise TurnsOutOfBoundsError('Attempted to do a sixth turn, not possible.')
+            raise InvalidTurnError('Attempted to do a sixth turn, not possible.')
 
     def get_current_turn(self):
         """
@@ -82,18 +82,24 @@ class Player:
 
 class Turn:
     """
-    A turn in a game. A turn is created and executed by a player.
-    A turn contains meta data about the turn, like when the player created and executed the turn.
+    A turn in a game. A turn is created and executed by a player. A turn contains meta data about the turn.
     """
-    location = None
-    createdAt = None
-    executedAt = None
 
     def __init__(self):
         self.createdAt = datetime.now()
+        self.executedAt = None
+        self.location = None
 
     def execute_turn(self, x, y):
+        """
+        The user actively executes the turn, choosing a position on the board.
+        executedAt variable should be filled here
+        :param x: horizontal index value of the board, must be either 1, 2 or 3
+        :param y: vertical index value of the board, must be either 1, 2 or 3
+        :return:
+        """
         self.location = Location(x, y)
+        self.executedAt = datetime.now()
 
     def get_time_taken(self):
         return (self.createdAt - self.executedAt).total_seconds()

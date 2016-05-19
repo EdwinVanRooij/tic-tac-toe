@@ -77,7 +77,7 @@ class TestPlayer(unittest.TestCase):
             self.player.create_turn()
 
         # At 5 turns now, try to create the sixth one. Should throw exception.
-        with self.assertRaises(TurnsOutOfBoundsError):
+        with self.assertRaises(InvalidTurnError):
             self.player.create_turn()
 
 
@@ -91,10 +91,40 @@ class TestTurn(unittest.TestCase):
         self.player = Player(player_bob_name)
         self.player.create_turn()
 
-        # def testExecuteTurn(self):
-        # expected = self.player.turnHistory[0]
-        # self.player.
-        # actual = self.player.get_current_turn()
+    def testExecuteTurn(self):
+        """
+        The user actively executes the turn, choosing a position on the board.
+        executedAt variable should be filled here
+        :param x: horizontal index value of the board, must be either 1, 2 or 3
+        :param y: vertical index value of the board, must be either 1, 2 or 3
+        :return:
+        """
+        turn = self.player.get_current_turn()
+        # Should work, 3 is the last index of the board
+        turn.execute_turn(3, 3)
+        # Should work as well, 1 is the first index on the board
+        second_turn = self.player.create_turn()
+        second_turn.execute_turn(1, 1)
+
+    def testDates(self):
+        """
+        createdAt is created on turn creation
+        executedAt is created on turn completion
+        :return:
+        """
+        before = datetime.now()
+        new_turn = self.player.create_turn()
+        after = datetime.now()
+        # Now check whether or not the new turn was after the before & before the after
+        if new_turn.createdAt <= before or new_turn.createdAt >= after:
+            self.fail('The creation of the turn has set an invalid createdAt')
+
+        before_execution = datetime.now()
+        new_turn.execute_turn(2, 2)
+        after_execution = datetime.now()
+        # Check whether or not the execution happened after the before and before the after
+        if new_turn.executedAt <= before_execution or new_turn.executedAt >= after_execution:
+            self.fail('The execution of the turn has set an invalid executedAt')
 
 
 class TestSimpleFoo(unittest.TestCase):
