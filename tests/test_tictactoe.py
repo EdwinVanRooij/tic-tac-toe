@@ -7,7 +7,7 @@ from src.tictactoe import *
 player_bob_name = 'Bob'
 player_alice_name = 'Alice'
 player_hank_name = 'Hank'
-delay = 0.2
+delay = 0.1
 
 
 class TestGame(unittest.TestCase):
@@ -48,6 +48,7 @@ class TestPlayer(unittest.TestCase):
     def setUp(self):
         self.game = Game()
         self.game.add_player(player_bob_name)
+        self.player_one = self.game.get_player_one()
 
     def testGetPlayerNumber(self):
         """
@@ -61,8 +62,8 @@ class TestPlayer(unittest.TestCase):
         Returns the current turn of the player, this is the last one added.
         :return:
         """
-        expected = self.game.players[0].create_turn()
-        actual = self.game.players[0].get_current_turn()
+        expected = self.player_one.create_turn()
+        actual = self.player_one.get_current_turn()
         self.assertEqual(expected, actual, 'Just added turn is not the created turn')
 
     def testCreateTurn(self):
@@ -72,10 +73,20 @@ class TestPlayer(unittest.TestCase):
         """
         expected = 1
         # Test whether or not the turn was added to the history of turns
-        self.game.players[0].create_turn()
-        actual = len(self.game.players[0].turnHistory)
+        self.game.get_player_one().create_turn()
+        actual = len(self.player_one.turnHistory)
         # Verify that there was a turn added
         self.assertEqual(expected, actual, 'There was not exactly one turn added')
+
+    def testTurnType(self):
+        # Create a turn so we can test what the turn type is
+        self.player_one.create_turn()
+        # Circle is the default turn type for player 1
+        expected = TurnTypes[CIRCLE]
+        turn = self.player_one.get_current_turn()
+        actual = TurnTypes[turn.turnType]
+
+        self.assertEqual(expected, actual, 'Did not get a circle turn type on first player')
 
     def testCreateTurnMax(self):
         """
@@ -169,32 +180,31 @@ class TestTurn(unittest.TestCase):
             self.fail('The execution of the turn has set an invalid executedAt')
 
 
-class TestSimpleFoo(unittest.TestCase):
-    foo = None
-    print('Ran class initialization:\t', foo)
-
-    def setUp(self):
-        self.foo = 'setup'
-        print('Ran setup:\t', self.foo)
-
-    def tearDown(self):
-        self.foo = None
-        print('Ran teardown:\t', self.foo)
-
-    def test_a(self):
-        self.foo = 'test_a'
-        print('Ran test [A]:\t', self.foo)
-        self.assertEqual(self.foo, 'test_a')
-
-    def test_b(self):
-        self.foo = 'test_b'
-        print('Ran test [B]:\t', self.foo)
-        self.assertEqual(self.foo, 'test_b')
-
-    def test_c(self):
-        self.foo = 'test_c'
-        print('Ran test [C]:\t', self.foo)
-        self.assertEqual(self.foo, 'test_c')
+# class TestSimpleFoo(unittest.TestCase):
+#     foo = None
+#
+#     def setUp(self):
+#         self.foo = 'setup'
+#         print('Ran setup:\t', self.foo)
+#
+#     def tearDown(self):
+#         self.foo = None
+#         print('Ran teardown:\t', self.foo)
+#
+#     def test_a(self):
+#         self.foo = 'test_a'
+#         print('Ran test [A]:\t', self.foo)
+#         self.assertEqual(self.foo, 'test_a')
+#
+#     def test_b(self):
+#         self.foo = 'test_b'
+#         print('Ran test [B]:\t', self.foo)
+#         self.assertEqual(self.foo, 'test_b')
+#
+#     def test_c(self):
+#         self.foo = 'test_c'
+#         print('Ran test [C]:\t', self.foo)
+#         self.assertEqual(self.foo, 'test_c')
 
 # if __name__ == '__main__':
 #     unittest.main()

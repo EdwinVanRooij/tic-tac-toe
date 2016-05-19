@@ -1,6 +1,5 @@
 #!/usr/bin/env
 from datetime import datetime
-from enum import Enum
 
 
 class PlayerOutOfBoundsError(Exception):
@@ -27,9 +26,9 @@ class OutOfBoardError(Exception):
         return repr(self.value)
 
 
-class TurnType(Enum):
-    Circle = 1
-    Cross = 2
+TurnTypes = ['CIRCLE', 'CROSS']
+CIRCLE = 0
+CROSS = 1
 
 
 class Game:
@@ -71,6 +70,22 @@ class Game:
         else:
             return PlayerOutOfBoundsError('There is an invalid amount of players in this game')
 
+    def get_player_one(self):
+        """
+        Returns player one if exists
+        :return: player object
+        """
+        if len(self.players) >= 1:
+            return self.players[0]
+
+    def get_player_two(self):
+        """
+        Returns player two if exists
+        :return:
+        """
+        if len(self.players) >= 2:
+            return self.players[1]
+
 
 class Player:
     """
@@ -94,13 +109,13 @@ class Player:
         """
         Creates a turn and adds it to the turn history.
         A player may not have more than 5 turns.
-        :return:
+        :return: turn
         """
         if len(self.turnHistory) < 5:
             if self.playerNumber == 1:
-                turn = Turn(TurnType.Circle)
+                turn = Turn(CIRCLE)
             elif self.playerNumber == 2:
-                turn = Turn(TurnType.Cross)
+                turn = Turn(CROSS)
             else:
                 raise IndexError('playerNumber does not have a valid index')
 
@@ -120,6 +135,7 @@ class Player:
 class Turn:
     """
     A turn in a game. A turn is created and executed by a player. A turn contains meta data about the turn.
+    Circle is the default turn type for player 1.
     """
 
     def __init__(self, turn_type):
