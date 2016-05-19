@@ -10,7 +10,15 @@ class PlayerOutOfBoundsError(Exception):
         return repr(self.value)
 
 
-class InvalidTurnError(Exception):
+class TurnOutOfBoundsError(Exception):
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
+
+
+class OutOfBoardError(Exception):
     def __init__(self, value):
         self.value = value
 
@@ -70,7 +78,7 @@ class Player:
             self.turnHistory.append(turn)
             return turn
         else:
-            raise InvalidTurnError('Attempted to do a sixth turn, not possible.')
+            raise TurnOutOfBoundsError('Attempted to do a sixth turn, not possible.')
 
     def get_current_turn(self):
         """
@@ -98,6 +106,13 @@ class Turn:
         :param y: vertical index value of the board, must be either 1, 2 or 3
         :return:
         """
+        valid_x_indexes = [1, 2, 3]
+        valid_y_indexes = [1, 2, 3]
+        if x not in valid_x_indexes:
+            raise OutOfBoardError('X value was not placed on board')
+        if y not in valid_y_indexes:
+            raise OutOfBoardError('Y value was not placed on board')
+
         self.location = Location(x, y)
         self.executedAt = datetime.now()
 

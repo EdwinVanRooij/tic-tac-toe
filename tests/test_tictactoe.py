@@ -6,6 +6,7 @@ from tictactoe import *
 player_bob_name = 'Bob'
 player_alice_name = 'Alice'
 player_hank_name = 'Hank'
+delay = 0.2
 
 
 class TestGame(unittest.TestCase):
@@ -78,7 +79,7 @@ class TestPlayer(unittest.TestCase):
             self.player.create_turn()
 
         # At 5 turns now, try to create the sixth one. Should throw exception.
-        with self.assertRaises(InvalidTurnError):
+        with self.assertRaises(TurnOutOfBoundsError):
             self.player.create_turn()
 
 
@@ -96,8 +97,7 @@ class TestTurn(unittest.TestCase):
         """
         The user actively executes the turn, choosing a position on the board.
         executedAt variable should be filled here
-        :param x: horizontal index value of the board, must be either 1, 2 or 3
-        :param y: vertical index value of the board, must be either 1, 2 or 3
+        createdAt should be tested as well, but on the create turn already
         :return:
         """
         turn = self.player.get_current_turn()
@@ -107,6 +107,30 @@ class TestTurn(unittest.TestCase):
         second_turn = self.player.create_turn()
         second_turn.execute_turn(1, 1)
 
+    def testInvalidTurnsNegative(self):
+        """
+        :param x: horizontal index value of the board, must be either 1, 2 or 3
+        :param y: vertical index value of the board, must be either 1, 2 or 3
+        """
+        # The numbers below 1 and above 3 should raise an exception
+        with self.assertRaises(OutOfBoardError):
+            # Loop from 0 to -3
+            for i in range(0, -3, -1):
+                turn = self.player.create_turn()
+                turn.execute_turn(i, i)
+
+    def testInvalidTurnsPositive(self):
+        """
+        :param x: horizontal index value of the board, must be either 1, 2 or 3
+        :param y: vertical index value of the board, must be either 1, 2 or 3
+        """
+        # The numbers below 1 and above 3 should raise an exception
+        with self.assertRaises(OutOfBoardError):
+            # Loop from 4 to 7
+            for i in range(4, 7, 1):
+                turn = self.player.create_turn()
+                turn.execute_turn(i, i)
+
     def testDates(self):
         """
         createdAt is created on turn creation
@@ -115,9 +139,9 @@ class TestTurn(unittest.TestCase):
         """
         before = datetime.now()
         # Generate a quick delay
-        time.sleep(1)
+        time.sleep(delay)
         new_turn = self.player.create_turn()
-        time.sleep(1)
+        time.sleep(delay)
         after = datetime.now()
         # Now check whether or not the new turn was after the before & before the after
         if new_turn.createdAt <= before or new_turn.createdAt >= after:
@@ -125,10 +149,10 @@ class TestTurn(unittest.TestCase):
 
         before_execution = datetime.now()
         # Generate a quick delay
-        time.sleep(1)
+        time.sleep(delay)
         new_turn.execute_turn(2, 2)
         # Generate a quick delay
-        time.sleep(1)
+        time.sleep(delay)
         after_execution = datetime.now()
         # Check whether or not the execution happened after the before and before the after
         if new_turn.executedAt <= before_execution or new_turn.executedAt >= after_execution:
