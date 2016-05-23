@@ -11,7 +11,7 @@ TOP = 1
 BOTTOM = 2
 
 # Delay 'enum'
-Delay = [0.03, 0.0075]
+Delay = [0.05, 0.025]
 SLOW = 0
 FAST = 1
 
@@ -21,12 +21,12 @@ def print_board():
     Prints the game board
     :return:
     """
-    print_three_lines(FlatRow[TOP])
-    print_three_lines(FlatRow[TOP], FlatRow[BOTTOM])
-    print_three_lines(FlatRow[BOTTOM])
+    print_row(FlatRow[TOP])
+    print_row(FlatRow[TOP], FlatRow[BOTTOM])
+    print_row(FlatRow[BOTTOM])
 
 
-def print_three_lines(*flat_row):
+def print_row(*flat_row):
     """
     Prints three lines with an optional row before and/or after.
     The row before and/or after closes or opens a tic-tac-toe row.
@@ -54,11 +54,12 @@ def print_line(string, times):
     :param times: amount of times to repeat
     :return:
     """
-    string_list = []
     for i in range(times):
-        string_list.append(string)
-        sys.stdout.write()
-    print("".join(string_list))
+        delay_print(string, FAST)
+    # Delay print doesn't go to the next line,
+    # so instead print an empty one here so we get
+    # to the next one.
+    print()
 
 
 def delay_print(string, delay):
@@ -72,13 +73,15 @@ def delay_print(string, delay):
 game = Game()
 
 # Greet the user
-delay_print('Greetings!\nLet\'s play Tic-Tac-Toe!\n\nFirst of all, what\'s your name?', SLOW)
+delay_print('\nGreetings!\nLet\'s play Tic-Tac-Toe!\n\nFirst of all, what\'s your name?\n', SLOW)
 
+# Get the first player's name
 player_one_name = input()
 
-delay_print('{}\'s a nice name! Now, what about player two?'.format(player_one_name), SLOW)
+delay_print('\n{}\'s a nice name! Now, what about player two?\n'.format(player_one_name), SLOW)
 
 player_two_name = input()
+print()
 
 game.add_player(player_one_name)
 game.add_player(player_two_name)
