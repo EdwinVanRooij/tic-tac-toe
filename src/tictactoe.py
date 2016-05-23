@@ -40,6 +40,7 @@ def prompt_turn():
 
 
 def check_winner():
+    # Check for straight rows
     for i in range(0, 4):
         in_a_row = 0
         for turn in turns:
@@ -52,6 +53,31 @@ def check_winner():
         for turn in turns:
             if turn.y == i:
                 in_a_row += 1
+        if in_a_row == 3:
+            return True
+
+    # Check for diagonal lines
+    in_a_row = 0
+    for turn in turns:
+        # Check for top-left to bottom-right
+        if turn.x == 0 and turn.y == 0:
+            in_a_row += 1
+        if turn.x == 1 and turn.y == 1:
+            in_a_row += 1
+        if turn.x == 2 and turn.y == 2:
+            in_a_row += 1
+        if in_a_row == 3:
+            return True
+
+    in_a_row = 0
+    for turn in turns:
+        # Check for top-right to bottom-left
+        if turn.x == 2 and turn.y == 0:
+            in_a_row += 1
+        if turn.x == 1 and turn.y == 1:
+            in_a_row += 1
+        if turn.x == 0 and turn.y == 2:
+            in_a_row += 1
         if in_a_row == 3:
             return True
 
